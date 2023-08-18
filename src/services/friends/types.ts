@@ -1,0 +1,3 @@
+interface FindUserById {
+    id: number
+}

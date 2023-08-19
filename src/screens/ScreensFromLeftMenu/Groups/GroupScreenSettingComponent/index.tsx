@@ -51,6 +51,21 @@ const GroupSettingScreen = (props: Props) => {
   React.useEffect(() => {
     setTempGroupFriends(group.friends)
   }, [])
+
+  const sortFriendsList: Array<FriendDataType>  = React.useMemo(() => {
+    const groupFriend: FriendDataType[] = []
+    const ungroupFriend: FriendDataType[] = []
+
+    friends.forEach((friend, _index) => {
+      if (group.friends.includes(friend.id)) {
+        groupFriend.push(friend)
+      } else {
+        ungroupFriend.push(friend)
+      }
+    })
+
+    return [...groupFriend, ...ungroupFriend]
+  }, [friends])
   
   const onPressFriendChecked = (id: number, flag: boolean) => {
     if (!flag) {
@@ -75,7 +90,7 @@ const GroupSettingScreen = (props: Props) => {
           {group.name}
         </Text>
         {
-          friends.map((friend, _index) => (
+          sortFriendsList.map((friend, _index) => (
             <FriendView
               key={friend.id} {...friend}
               isChecked={

@@ -6,6 +6,7 @@ import { Color } from '../../styles/GlobalStyles';
 import DrawerLeftMenuComponent from './DrawerLeftMenuComponent';
 import FriendsScreen from '../../screens/ScreensFromLeftMenu/FriendsScreen';
 import GroupsScreen from '../../screens/ScreensFromLeftMenu/Groups';
+import SettingScreen from '../../screens/ScreensFromLeftMenu/Settings';
 
 const Drawer = createDrawerNavigator();
 
@@ -49,7 +50,7 @@ const AppNavigation = () : JSX.Element => (
       />
       <Drawer.Screen
         name="Settings"
-        component={Home}
+        component={SettingScreen}
         options={{
           headerShown: false,
           drawerIcon: () => (<IconButton icon={'cog-outline'} size={drawerIconProps.size} style={drawerStyles.iconStyle} />),

@@ -4,24 +4,26 @@ import {
 import { FontFamily } from '../../../styles/GlobalStyles'
 import React from 'react';
 
+interface UserWidgetType {
+  atCreate: Date,
+  music?: {
+      author: string,
+      name: string
+  },
+  geolocation?: {
+      lat: number,
+      lng: number
+  },
+  user: FriendDataType,
+  selectedReactions?: Array<string>
+}
 interface UserWidgetComponentType {
     mainStyle?: ViewStyle,
     config?: {animated: object}
     onLayout?: (event: LayoutChangeEvent) => void
     onUserClick?: () => void
-    widget: {
-        atCreate: Date,
-        music?: {
-            author: string,
-            name: string
-        },
-        geolocation?: {
-            lat: number,
-            lng: number
-        },
-        user: FriendDataType,
-        selectedReactions?: Array<string>
-    }
+    showUserState: boolean
+    widget: UserWidgetType
 }
 
 interface ReactionsType {
@@ -180,4 +182,4 @@ const style = StyleSheet.create({
 
 export default UserWidgetComponent
 
-export type { UserWidgetComponentType }
+export type { UserWidgetType,  }

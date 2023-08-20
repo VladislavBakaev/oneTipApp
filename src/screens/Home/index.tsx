@@ -11,15 +11,11 @@ import MainContentCreateView from './MainContentCreateView';
 import { ContentTextStyleType } from './MainContentCreateView/types';
 import { HomeBackground } from '../../components/UI/Backgrounds';
 import UserWidgetComponent,
-{ UserWidgetComponentType } from './UserWidgetComponent';
+{ UserWidgetType } from './UserWidgetComponent';
 import { ParamListBase } from '@react-navigation/native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { updateActialFriendsList, updateRequestFriendsList } from '../../services/friends';
 import { updatFriendGroupsList } from '../../services/groups';
-
-interface UserWidgetListComponentType {
-    widgets: Array<UserWidgetComponentType>
-}
 
 const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
 
@@ -53,70 +49,62 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
     setContentTextStyle(contentTextStyleDefault)
   }
 
-  const widgetsArray: UserWidgetListComponentType = {
-    widgets: [
-      {
-        widget:{
-          atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-          user: {
-            firstName: 'First Name',
-            lastName: 'Last Name',
-            avatar: '',
-            id: 12341234
-          },
-          geolocation: {
-            lat: 45.2323,
-            lng: 54.233,
-          },
-          music: {
-            author: 'name surname',
-            name: 'Music name'
-          },
-          selectedReactions: ['smile']
-        }
+  const widgetsArray: Array<UserWidgetType> = [
+    {
+      atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
+      user: {
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        avatar: '',
+        id: 12341234
       },
-      {
-        widget:{
-          atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-          user: {
-            firstName: 'First Name',
-            lastName: 'Last Name',
-            avatar: '',
-            id: 4442244,
-          },
-          geolocation: {
-            lat: 45.2323,
-            lng: 54.233,
-          },
-          music: {
-            author: 'name surname',
-            name: 'Music name'
-          },
-          selectedReactions: ['smile']
-        }
+      geolocation: {
+        lat: 45.2323,
+        lng: 54.233,
       },
-      {
-        widget:{
-          atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-          user: {
-            firstName: 'First Name',
-            lastName: 'Last Name',
-            avatar: '',
-            id: 1231233,
-          },
-          geolocation: {
-            lat: 45.2323,
-            lng: 54.233,
-          },
-          music: {
-            author: 'name surname',
-            name: 'Music name'
-          },
-          selectedReactions: ['smile']
-        }
+      music: {
+        author: 'name surname',
+        name: 'Music name'
       },
-    ]
-  }
+      selectedReactions: ['smile']
+    },
+    {
+      atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
+      user: {
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        avatar: '',
+        id: 4442244,
+      },
+      geolocation: {
+        lat: 45.2323,
+        lng: 54.233,
+      },
+      music: {
+        author: 'name surname',
+        name: 'Music name'
+      },
+      selectedReactions: ['smile']
+    },
+    {
+      atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
+      user: {
+        firstName: 'First Name',
+        lastName: 'Last Name',
+        avatar: '',
+        id: 1231233,
+      },
+      geolocation: {
+        lat: 45.2323,
+        lng: 54.233,
+      },
+      music: {
+        author: 'name surname',
+        name: 'Music name'
+      },
+      selectedReactions: ['smile']
+    }
+  ]
 
   return (
     <SafeAreaView style={style.baseContainer}>
@@ -148,11 +136,12 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
             setDefaultContentTextStyle={setContentTextStyleDefault}
           />
           {
-            widgetsArray.widgets.map((widget, key) => (
+            widgetsArray.map((widget, key) => (
               <UserWidgetComponent
-                widget={widget.widget}
+                widget={widget}
                 key={key}
-                onUserClick={() => navigation.navigate('FriendChat', widget.widget.user) }
+                onUserClick={() => navigation.navigate('FriendChat', widget.user) }
+                showUserState={true}
               />
             )) 
           }

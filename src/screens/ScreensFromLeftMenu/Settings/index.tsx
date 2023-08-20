@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import MainUserHeader from '../../../components/MainUserHeader'
 import { RootState } from '../../../redux/AppStore'
 import { BackgroundForMenus } from '../../../components/UI/Backgrounds'
-import React from 'react'
+import React, { SetStateAction } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker'
 import { Color } from '../../../styles/GlobalStyles'
 import { IconButton } from 'react-native-paper'
@@ -23,7 +23,7 @@ const SliderSetting = (props: SliderSettingType) => (
   <View style={sliderStyles.containerStyle}>
     <Text>{props.label + ' '+ props.value.toString()}</Text>
     <View style={sliderStyles.sliderWithRangeContainer}>
-      <Text style={sliderStyles.sliderRangeTextStyle}>{props.min}</Text>
+      <Text style={sliderStyles.sliderRangeTextStyle}>{props.min+1}</Text>
       <Slider
         style={{ width: '80%', height: 40 }}
         value={props.value}
@@ -62,9 +62,35 @@ const sliderStyles = StyleSheet.create({
   }
 })
 
+interface DropDownLanguangeSelectorType {
+  selectedLanguage: string
+  languagesList: Array<object>
+  setSelectedLanguage: (callback: SetStateAction<string>) => void
+}
+
+const DropDownLanguangeSelector = (props: DropDownLanguangeSelectorType) => {
+  const [showDropDown, setShowDropDown] = React.useState(false);
+
+
+  return (
+    <DropDownPicker
+      open={showDropDown}
+      value={props.selectedLanguage}
+      items={props.languagesList}
+      setOpen={setShowDropDown}
+      setValue={props.setSelectedLanguage}
+      style={style.selectLanguageStyle}
+      dropDownContainerStyle={style.dropDownStyle}
+      textStyle={style.selectTextStyle}
+      ArrowUpIconComponent={() => (<IconButton icon='chevron-up' />)}
+      ArrowDownIconComponent={() => (<IconButton icon='chevron-down' />)}
+      TickIconComponent={() => (<IconButton icon='check' />)}
+    />
+  )
+}
+
 const SettingScreen = () => {
   const userData = useSelector((state: RootState) => state.user.user)
-  const [showDropDown, setShowDropDown] = React.useState(false);
 
   const [selectedLanguage, setSelectedLanguage] = React.useState('en')
   const [activeWidgetCount, setActiveWidgetCount] = React.useState(10)
@@ -107,19 +133,7 @@ const SettingScreen = () => {
         style={style.backgroundContainer}
       >
         <View>
-          <DropDownPicker
-            open={showDropDown}
-            value={selectedLanguage}
-            items={languagesList}
-            setOpen={setShowDropDown}
-            setValue={setSelectedLanguage}
-            style={style.selectLanguageStyle}
-            dropDownContainerStyle={style.dropDownStyle}
-            textStyle={style.selectTextStyle}
-            ArrowUpIconComponent={() => (<IconButton icon='chevron-up' />)}
-            ArrowDownIconComponent={() => (<IconButton icon='chevron-down' />)}
-            TickIconComponent={() => (<IconButton icon='check' />)}
-          />
+
           <SliderSetting
             max={maxActiveWidgetCount}
             min={minActiveWidgetCount}
@@ -137,6 +151,11 @@ const SettingScreen = () => {
             }
             value={lifeTimeWidgetCount}
             label='Widgets active delay (min)'
+          />
+          <DropDownLanguangeSelector
+            languagesList={languagesList}
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
           />
         </View>
       </BackgroundForMenus>
@@ -160,9 +179,11 @@ const style = StyleSheet.create({
     borderColor: Color.darkgray,
     height: 60,
     borderRadius: 30,
+    marginTop: 30,
   },
   dropDownStyle: {
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    marginTop: 30,
     borderTopWidth: 0,
     borderColor: Color.darkgray,
     borderWidth: 0.5,

@@ -14,7 +14,7 @@ import {
 } from 'react-native-paper';
 import CustomButton from '../../../components/UI/CustomButton';
 import { ImageLibraryOptions, launchImageLibrary } from 'react-native-image-picker';
-import React, { CSSProperties, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Toast from 'react-native-simple-toast';
 import { AppStackType } from '../../../navigation/types';
 import { deleteUserFromFriend, saveUserChangedData } from '../../../services/friends';

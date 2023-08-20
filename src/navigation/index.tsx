@@ -11,6 +11,7 @@ import Home from './Home'
 import LoadingScreen from '../screens/Loading';
 import FriendScreen from '../screens/ScreensFromLeftMenu/UserScrean';
 import { AppStackType } from './types';
+import FriendChatScreen from '../screens/FriendChatScreen';
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 
@@ -58,6 +59,13 @@ const AppNavigation = () : JSX.Element => {
               <AppStack.Screen
                 name='Friend'
                 component={FriendScreen}
+                options={{
+                  headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_bottom' 
+                }}
+              />
+              <AppStack.Screen
+                name='FriendChat'
+                component={FriendChatScreen}
                 options={{
                   headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_bottom' 
                 }}

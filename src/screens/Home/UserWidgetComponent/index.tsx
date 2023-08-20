@@ -8,6 +8,7 @@ interface UserWidgetComponentType {
     mainStyle?: ViewStyle,
     config?: {animated: object}
     onLayout?: (event: LayoutChangeEvent) => void
+    onUserClick?: () => void
     widget: {
         atCreate: Date,
         music?: {
@@ -18,11 +19,7 @@ interface UserWidgetComponentType {
             lat: number,
             lng: number
         },
-        user: {
-            firstName: string,
-            lastName: string,
-            avatar: string,
-        },
+        user: FriendDataType,
         selectedReactions?: Array<string>
     }
 }
@@ -107,7 +104,7 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
         source={require('../../../assets/image/photo.jpg')}
         style={style.imageContainer}
       />
-      <View style={style.userContainerStyle}>
+      <View style={style.userContainerStyle} onTouchEnd={props.onUserClick}>
         <Image
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           source={require('../../../assets/avatars/first_avatar.png')}

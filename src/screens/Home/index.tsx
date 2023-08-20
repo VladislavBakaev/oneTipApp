@@ -17,7 +17,6 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { updateActialFriendsList, updateRequestFriendsList } from '../../services/friends';
 import { updatFriendGroupsList } from '../../services/groups';
 
-
 interface UserWidgetListComponentType {
     widgets: Array<UserWidgetComponentType>
 }
@@ -45,6 +44,7 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
   const openMenuButtonPress = () => {
     navigation.openDrawer()
   }
+
   const openContentConfigButtonPress = () => {
     console.log('open config content button press')
   }
@@ -61,7 +61,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
           user: {
             firstName: 'First Name',
             lastName: 'Last Name',
-            avatar: ''
+            avatar: '',
+            id: 12341234
           },
           geolocation: {
             lat: 45.2323,
@@ -80,7 +81,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
           user: {
             firstName: 'First Name',
             lastName: 'Last Name',
-            avatar: ''
+            avatar: '',
+            id: 4442244,
           },
           geolocation: {
             lat: 45.2323,
@@ -99,7 +101,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
           user: {
             firstName: 'First Name',
             lastName: 'Last Name',
-            avatar: ''
+            avatar: '',
+            id: 1231233,
           },
           geolocation: {
             lat: 45.2323,
@@ -149,6 +152,7 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
               <UserWidgetComponent
                 widget={widget.widget}
                 key={key}
+                onUserClick={() => navigation.navigate('FriendChat', widget.widget.user) }
               />
             )) 
           }

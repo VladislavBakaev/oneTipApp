@@ -139,7 +139,7 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
             widgetsArray.map((widget, key) => (
               <UserWidgetComponent
                 widget={widget}
-                key={key}
+                key={widget.user.id}
                 onUserClick={() => navigation.navigate('FriendChat', widget.user) }
                 showUserState={true}
               />
@@ -181,10 +181,8 @@ const style = StyleSheet.create({
     margin: 5,
   },
   scrollViewStyle: {
-    // flex: 1,
     paddingLeft: 10,
     paddingRight: 10,
-    marginTop: 20,
   }
 })
 

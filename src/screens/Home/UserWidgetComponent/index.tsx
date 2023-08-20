@@ -1,5 +1,5 @@
 import {
-  Animated, Image, LayoutChangeEvent, StyleSheet, Text, View, ViewStyle 
+  Animated, Image, LayoutChangeEvent, StyleProp, StyleSheet, Text, View, ViewStyle 
 } from 'react-native'
 import { FontFamily } from '../../../styles/GlobalStyles'
 import React from 'react';
@@ -18,7 +18,7 @@ interface UserWidgetType {
   selectedReactions?: Array<string>
 }
 interface UserWidgetComponentType {
-    mainStyle?: ViewStyle,
+    mainStyle?: StyleProp<ViewStyle>,
     config?: {animated: object}
     onLayout?: (event: LayoutChangeEvent) => void
     onUserClick?: () => void
@@ -97,7 +97,7 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
   }
 
   return (
-    <Animated.View 
+    <Animated.View
       style={[style.mainContainer, props.mainStyle, props.config?.animated]}
       onLayout={props.onLayout}
     >
@@ -106,17 +106,19 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
         source={require('../../../assets/image/photo.jpg')}
         style={style.imageContainer}
       />
-      <View style={style.userContainerStyle} onTouchEnd={props.onUserClick}>
-        <Image
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          source={require('../../../assets/avatars/first_avatar.png')}
-          style={style.userAvatarStyle}
-        />
-        <Text style={[style.userNameStyle, { marginRight: 10 }]}>
-          {props.widget.user.firstName}
-        </Text>
-        <Text style={style.userNameStyle}>{props.widget.user.lastName}</Text>
-      </View>
+      { props.showUserState && 
+        <View style={style.userContainerStyle} onTouchEnd={props.onUserClick}>
+          <Image
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            source={require('../../../assets/avatars/first_avatar.png')}
+            style={style.userAvatarStyle}
+          />
+          <Text style={[style.userNameStyle, { marginRight: 10 }]}>
+            {props.widget.user.firstName}
+          </Text>
+          <Text style={style.userNameStyle}>{props.widget.user.lastName}</Text>
+        </View>
+      }
       <View style={style.emojiContainerStyle}>
         {reactionItems.reactions.map((reaction, key)=>(
           <Text

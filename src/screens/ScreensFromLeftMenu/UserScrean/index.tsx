@@ -59,8 +59,7 @@ const FriendScreen = (props: Props) => {
   }
 
   const openFriendChat = () => {
-    // navigate to chat screen
-    console.log('open chat with friend')
+    props.navigation.navigate('FriendChat', props.route.params)
   }
 
   const changeUserName = () => {

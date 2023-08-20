@@ -1,4 +1,6 @@
-import { StyleSheet, View } from 'react-native';
+import {
+  LayoutChangeEvent, StyleSheet, View 
+} from 'react-native';
 import { MainContainerCreateType } from './types';
 
 import {
@@ -14,6 +16,7 @@ import InputTextCreatorControlComponent from './InputTextCreatorControlComponent
 const MainContentCreateView = (props: MainContainerCreateType) => {
   const [textCreatorMode, setTextCreatorMode] = React.useState(false);
   const [onlyTextMode, setOnlyTextMode] = React.useState(false);
+  const [cameraHeight, setCameraHeight] = React.useState(400)
 
   const photoRef = React.useRef<CameraComponentRefType>(null);
 
@@ -44,9 +47,16 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
     setTextCreatorMode(true);
   };
 
+  const changeCameraContainerSize = (event: LayoutChangeEvent) => {
+    setCameraHeight(event.nativeEvent.layout.width)
+  }
+
   return (
     <View style={style.mainContainer}>
-      <View style={[props.cameraStyle]}>
+      <View
+        style={{ width: '100%', height: cameraHeight }}
+        onLayout={changeCameraContainerSize}
+      >
         {onlyTextMode ? (
           <View
             style={{
@@ -106,7 +116,7 @@ const style = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     // backgroundColor: 'rgba(171, 171, 171, 0.28)',
-    padding: 5,
+    paddingTop: 20,
     borderRadius: 30,
   },
   propsPanelStyle: {

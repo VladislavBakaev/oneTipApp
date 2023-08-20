@@ -39,7 +39,12 @@ const ContentControlComponent = (props: ContentControlComponentType) => {
             }
           </View>
         </View>
-        <IconButton icon={'tray-arrow-up'} size={40} onPress={() => props.loadFromGalary()} />
+        <IconButton
+          icon={'tray-arrow-up'}
+          size={40}
+          onPress={!props.onlyTextMode ? props.loadFromGalary : undefined}
+          style={style.loadFromGalaryButtonStyle}
+        />
       </View>
       <View style={style.selectMediaDataContainer}>
         <IconButton icon={'map-marker'} size={35} />
@@ -62,7 +67,7 @@ const style = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: '#ffffff',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   photoButtonStyleInside: {
     width: 56,
@@ -71,6 +76,10 @@ const style = StyleSheet.create({
     backgroundColor: '#0081B8',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  loadFromGalaryButtonStyle: {
+    position: 'absolute',
+    right: '10%'
   },
   selectMediaDataContainer: {
     flexDirection: 'row',
@@ -85,12 +94,14 @@ const style = StyleSheet.create({
     padding: 5,
     height: 40,
     borderRadius: 20,
-    textAlignVertical: 'center'
+    textAlignVertical: 'center',
+    position: 'absolute',
+    left: '10%'
   },
   selectCameraDataTypeContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   clickedButton: {
     borderWidth: 1,

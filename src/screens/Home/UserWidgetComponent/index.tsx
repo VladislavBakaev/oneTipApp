@@ -20,7 +20,6 @@ interface UserWidgetType {
 interface UserWidgetComponentType {
     mainStyle?: StyleProp<ViewStyle>,
     config?: {animated: object}
-    onLayout?: (event: LayoutChangeEvent) => void
     onUserClick?: () => void
     showUserState: boolean
     widget: UserWidgetType
@@ -75,6 +74,8 @@ const reactionItems: ReactionsType = {
 const UserWidgetComponent = (props: UserWidgetComponentType) => {
   const [selectedEmojis, setSelectedEmojis] = React.useState<ReactionsType>({ reactions: [] });
 
+  const [widgetImageHeight, setWidgetImageHeight] = React.useState(400)
+
   const updateSelectedEmojis = (touchedReaction: ReactionItemType) => {
     if (selectedEmojis.reactions.find((reaction) => reaction.id === touchedReaction.id)){
       setSelectedEmojis(selectedEmojis => (
@@ -96,15 +97,20 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
     return id
   }
 
+  const containerSizeChange = (event: LayoutChangeEvent) => {
+    const widht = event.nativeEvent.layout.width
+    setWidgetImageHeight(widht)
+  }
+
   return (
     <Animated.View
       style={[style.mainContainer, props.mainStyle, props.config?.animated]}
-      onLayout={props.onLayout}
+      onLayout={containerSizeChange}
     >
       <Image
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         source={require('../../../assets/image/photo.jpg')}
-        style={style.imageContainer}
+        style={[style.imageContainer, { height: widgetImageHeight }]}
       />
       { props.showUserState && 
         <View style={style.userContainerStyle} onTouchEnd={props.onUserClick}>

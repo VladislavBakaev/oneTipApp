@@ -126,7 +126,6 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
           scrollEventThrottle={16}
         >
           <MainContentCreateView
-            cameraStyle={{ width: '100%', height: 400 }}
             photo={photo}
             setPhoto={setPhoto}
             contentText={contentText}
@@ -181,8 +180,8 @@ const style = StyleSheet.create({
     margin: 5,
   },
   scrollViewStyle: {
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
   }
 })
 

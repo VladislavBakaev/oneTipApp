@@ -1,5 +1,6 @@
 import {
-  LayoutChangeEvent, StyleSheet, View 
+  Animated,
+  LayoutChangeEvent, Modal, StyleSheet, Text, View 
 } from 'react-native';
 import { MainContainerCreateType } from './types';
 
@@ -12,11 +13,15 @@ import CameraComponent, { CameraComponentRefType } from './CameraComponent';
 import ContentControlComponent from './ContentControlComponent';
 import InputTextCreatorComponent from './InputTextCreatorComponent';
 import InputTextCreatorControlComponent from './InputTextCreatorControlComponent';
+import SelectFriendsForSendComponent from './SelectFriendsForSendComponent';
 
 const MainContentCreateView = (props: MainContainerCreateType) => {
   const [textCreatorMode, setTextCreatorMode] = React.useState(false);
   const [onlyTextMode, setOnlyTextMode] = React.useState(false);
-  const [cameraHeight, setCameraHeight] = React.useState(400)
+  const [cameraHeight, setCameraHeight] = React.useState(400);
+  const [sendModalVisible, setSendModalVisible] = React.useState(false);
+
+  const modalY = new Animated.Value(-400);
 
   const photoRef = React.useRef<CameraComponentRefType>(null);
 
@@ -42,71 +47,77 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
   };
   const sendPhoto = () => {
     console.log('send photo');
+    setSendModalVisible(true);
   };
   const addTextButtonClick = () => {
     setTextCreatorMode(true);
   };
-
   const changeCameraContainerSize = (event: LayoutChangeEvent) => {
     setCameraHeight(event.nativeEvent.layout.width)
   }
 
   return (
-    <View style={style.mainContainer}>
-      <View
-        style={{ width: '100%', height: cameraHeight }}
-        onLayout={changeCameraContainerSize}
-      >
-        {onlyTextMode ? (
-          <View
-            style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: 'black',
-              borderRadius: 30,
-            }}
-          />
-        ) : (
-          <CameraComponent
-            ref={photoRef}
-            photo={props.photo}
-            setPhoto={props.setPhoto}
-          />
-        )}
-        <InputTextCreatorComponent
-          textCreatorMode={textCreatorMode}
-          contentText={props.contentText}
-          setContentText={props.setContentText}
-          textInputStyle={props.contentTextStyle}
-        />
-      </View>
-      <View style={style.propsPanelStyle}>
-        {!textCreatorMode ? (
-          <ContentControlComponent
-            isContentTextNotEmpty={props.contentText !== ''}
-            isPhotoExist={props.photo !== ''}
-            addTextButtonClick={addTextButtonClick}
-            loadFromGalary={loadFromGalary}
-            sendPhoto={sendPhoto}
-            takePhoto={takePhoto}
-            onlyTextMode={onlyTextMode}
-            toggleOnlyTextMode={
-              () => setOnlyTextMode(!onlyTextMode)
-            }
-          />
-        ) : (
-          <InputTextCreatorControlComponent
-            contentTextStyle={props.contentTextStyle}
+    <>
+      <SelectFriendsForSendComponent
+        visible={sendModalVisible}
+        setVisible={setSendModalVisible}
+      />
+      <View style={style.mainContainer}>
+        <View
+          style={{ width: '100%', height: cameraHeight }}
+          onLayout={changeCameraContainerSize}
+        >
+          {onlyTextMode ? (
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'black',
+                borderRadius: 30,
+              }}
+            />
+          ) : (
+            <CameraComponent
+              ref={photoRef}
+              photo={props.photo}
+              setPhoto={props.setPhoto}
+            />
+          )}
+          <InputTextCreatorComponent
+            textCreatorMode={textCreatorMode}
+            contentText={props.contentText}
             setContentText={props.setContentText}
-            setContentTextStyle={props.setContentTextStyle}
-            setDefaultContentTextStyle={
-              props.setDefaultContentTextStyle
-            }
-            setTextCreatorMode={setTextCreatorMode}
+            textInputStyle={props.contentTextStyle}
           />
-        )}
+        </View>
+        <View style={style.propsPanelStyle}>
+          {!textCreatorMode ? (
+            <ContentControlComponent
+              isContentTextNotEmpty={props.contentText !== ''}
+              isPhotoExist={props.photo !== ''}
+              addTextButtonClick={addTextButtonClick}
+              loadFromGalary={loadFromGalary}
+              sendPhoto={sendPhoto}
+              takePhoto={takePhoto}
+              onlyTextMode={onlyTextMode}
+              toggleOnlyTextMode={
+                () => setOnlyTextMode(!onlyTextMode)
+              }
+            />
+          ) : (
+            <InputTextCreatorControlComponent
+              contentTextStyle={props.contentTextStyle}
+              setContentText={props.setContentText}
+              setContentTextStyle={props.setContentTextStyle}
+              setDefaultContentTextStyle={
+                props.setDefaultContentTextStyle
+              }
+              setTextCreatorMode={setTextCreatorMode}
+            />
+          )}
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

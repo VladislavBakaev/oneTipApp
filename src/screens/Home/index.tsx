@@ -59,8 +59,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
         id: 12341234
       },
       geolocation: {
-        lat: 45.2323,
-        lng: 54.233,
+        lat: 55.730149,
+        lng: 37.631258,
       },
       music: {
         author: 'name surname',
@@ -77,8 +77,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
         id: 4442244,
       },
       geolocation: {
-        lat: 45.2323,
-        lng: 54.233,
+        lat: 55.730149,
+        lng: 37.631258,
       },
       music: {
         author: 'name surname',
@@ -95,8 +95,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
         id: 1231233,
       },
       geolocation: {
-        lat: 45.2323,
-        lng: 54.233,
+        lat: 55.730149,
+        lng: 37.631258,
       },
       music: {
         author: 'name surname',

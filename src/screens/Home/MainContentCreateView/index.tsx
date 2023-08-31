@@ -1,8 +1,7 @@
 import {
-  Animated,
-  LayoutChangeEvent, Modal, StyleSheet, Text, View 
+  LayoutChangeEvent, StyleSheet, View 
 } from 'react-native';
-import { MainContainerCreateType } from './types';
+import { ContentTextStyleType, MainContainerCreateType } from './types';
 
 import {
   launchImageLibrary,
@@ -16,12 +15,23 @@ import InputTextCreatorControlComponent from './InputTextCreatorControlComponent
 import SelectFriendsForSendComponent from './SelectFriendsForSendComponent';
 
 const MainContentCreateView = (props: MainContainerCreateType) => {
+  const [photo, setPhoto] = React.useState('')
+  const [contentText, setContentText] = React.useState('')
+
+  const contentTextStyleDefault: ContentTextStyleType = {
+    fontColor: 'white',
+    fontFamily: 'Roboto',
+    fontSize: 30,
+    position: { x: 0, y: 0 }
+  }
+  const [
+    contentTextStyle, setContentTextStyle
+  ] = React.useState<ContentTextStyleType>(contentTextStyleDefault)
+
   const [textCreatorMode, setTextCreatorMode] = React.useState(false);
   const [onlyTextMode, setOnlyTextMode] = React.useState(false);
   const [cameraHeight, setCameraHeight] = React.useState(400);
   const [sendModalVisible, setSendModalVisible] = React.useState(false);
-
-  const modalY = new Animated.Value(-400);
 
   const photoRef = React.useRef<CameraComponentRefType>(null);
 
@@ -39,16 +49,19 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
       } else if (res.assets) {
         if (res.assets.length > 0) {
           if (res.assets[0].uri) {
-            props.setPhoto(res.assets[0].uri);
+            setPhoto(res.assets[0].uri);
           }
         }
       }
     });
   };
-  const sendPhoto = () => {
-    console.log('send photo');
+  const sendPhotoPrepareScreen = () => {
     setSendModalVisible(true);
   };
+  const sendWidget = (selectedFriends: Array<number>, selectedGroups: Array<number>) => {
+    console.log(selectedFriends)
+    console.log(selectedGroups)
+  }
   const addTextButtonClick = () => {
     setTextCreatorMode(true);
   };
@@ -61,6 +74,7 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
       <SelectFriendsForSendComponent
         visible={sendModalVisible}
         setVisible={setSendModalVisible}
+        onPressSend={sendWidget}
       />
       <View style={style.mainContainer}>
         <View
@@ -79,25 +93,25 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
           ) : (
             <CameraComponent
               ref={photoRef}
-              photo={props.photo}
-              setPhoto={props.setPhoto}
+              photo={photo}
+              setPhoto={setPhoto}
             />
           )}
           <InputTextCreatorComponent
             textCreatorMode={textCreatorMode}
-            contentText={props.contentText}
-            setContentText={props.setContentText}
-            textInputStyle={props.contentTextStyle}
+            contentText={contentText}
+            setContentText={setContentText}
+            textInputStyle={contentTextStyle}
           />
         </View>
         <View style={style.propsPanelStyle}>
           {!textCreatorMode ? (
             <ContentControlComponent
-              isContentTextNotEmpty={props.contentText !== ''}
-              isPhotoExist={props.photo !== ''}
+              isContentTextNotEmpty={contentText !== ''}
+              isPhotoExist={props !== ''}
               addTextButtonClick={addTextButtonClick}
               loadFromGalary={loadFromGalary}
-              sendPhoto={sendPhoto}
+              sendPhoto={sendPhotoPrepareScreen}
               takePhoto={takePhoto}
               onlyTextMode={onlyTextMode}
               toggleOnlyTextMode={
@@ -106,11 +120,11 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
             />
           ) : (
             <InputTextCreatorControlComponent
-              contentTextStyle={props.contentTextStyle}
-              setContentText={props.setContentText}
-              setContentTextStyle={props.setContentTextStyle}
+              contentTextStyle={contentTextStyle}
+              setContentText={setContentText}
+              setContentTextStyle={setContentTextStyle}
               setDefaultContentTextStyle={
-                props.setDefaultContentTextStyle
+                () => setContentTextStyle(contentTextStyleDefault)
               }
               setTextCreatorMode={setTextCreatorMode}
             />

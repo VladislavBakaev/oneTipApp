@@ -3,16 +3,22 @@ import { Animated, Image, Modal, ScrollView, StyleSheet, Text, View } from "reac
 import { HomeBackground } from "../../../../components/UI/Backgrounds"
 import { useSelector } from "react-redux"
 import { RootState } from "../../../../redux/AppStore"
-import { IconButton } from "react-native-paper"
+import { Checkbox, IconButton } from "react-native-paper"
 import { Color, FontFamily } from "../../../../styles/GlobalStyles"
 import CustomButton from "../../../../components/UI/CustomButton"
 
 interface SelectFriendsForSendType {
     visible: boolean
     setVisible: (flag: boolean) => void
+    onPressSend: (selectedFriends: Array<number>, selectedGroups: Array<number>) => void
 }
 
-const GroupConponent = (props: GroupData) => {
+interface CheckboxStateType {
+  checked: boolean,
+  onChangeCheckboxState: () => void
+}
+
+const GroupConponent = (props: GroupData & CheckboxStateType) => {
   const avatarsStyles = [
     styleGroupComponent.firstFriendsAvatarStyle,
     styleGroupComponent.secondFriendsAvatarStyle,
@@ -56,11 +62,17 @@ const GroupConponent = (props: GroupData) => {
         <Text style={styleGroupComponent.groupNameStyle}>{props.name}</Text>
         <Text style={styleGroupComponent.groupMemberTextStyle}>{props.friends.length.toString() + ' memberships'}</Text>
       </View>
+      <View style={{position: 'absolute', right: 10}}>
+        <Checkbox
+          status={props.checked ? 'checked' : 'unchecked'}
+          onPress={props.onChangeCheckboxState}
+        />        
+      </View>
     </View>
   ) 
 }
 
-const FriendDataComponent = (props: FriendDataType) => {
+const FriendDataComponent = (props: FriendDataType & CheckboxStateType) => {
   const friend: FriendDataType = {
     avatar: props.avatar,
     firstName: props.firstName,
@@ -82,6 +94,12 @@ const FriendDataComponent = (props: FriendDataType) => {
         <Text>    </Text>
         <Text style={styleFriednComponent.friednNameTextStyle}>{friend.firstName}</Text>
       </View>
+      <View style={{position: 'absolute', right: 10}}>
+        <Checkbox
+          status={props.checked ? 'checked' : 'unchecked'}
+          onPress={props.onChangeCheckboxState}
+        />        
+      </View>
     </View>
   )
 }
@@ -91,10 +109,15 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
   const friends = useSelector((state: RootState) => state.friends.actualFriends)
   const groups = useSelector((state: RootState) => state.groups.groups)
 
+  const [selectedFriends, setSelectedFriends]  = React.useState<Array<number>>([])
+  const [selectedGroups, setSelectedGroups] = React.useState<Array<number>>([])
+
   const fadeAnim = React.useRef(new Animated.Value(500)).current;
 
   React.useEffect(() => {
     if(props.visible) {
+      setSelectedFriends([])
+      setSelectedGroups([])
       Animated.timing(fadeAnim, {
         toValue: 0,
         duration: 300,
@@ -111,6 +134,26 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
     }).start(() => props.setVisible(false));
   }
 
+  const onChangeSelectedFriends = (id: number) => {
+    if (selectedFriends.includes(id)) {
+      const newSelectedFriends = [...selectedFriends]
+      newSelectedFriends.splice(newSelectedFriends.indexOf(id), 1)
+      setSelectedFriends(newSelectedFriends)
+    } else {
+      setSelectedFriends([...selectedFriends, id])
+    }
+  }
+
+  const onChangeSelectedGroups = (id: number) => {
+    if (selectedGroups.includes(id)) {
+      const newSelectedGroups = [...selectedGroups]
+      newSelectedGroups.splice(newSelectedGroups.indexOf(id), 1)
+      setSelectedGroups(newSelectedGroups)
+    } else {
+      setSelectedGroups([...selectedGroups, id])
+    }
+  }
+
   return (
     <Modal
       animationType="fade"
@@ -121,6 +164,10 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
       <View
         style={style.mainContainer}
       >
+        <View
+          style={{backgroundColor: 'transparent', position: 'absolute', width: '100%', height: '100%'}}
+          onTouchEnd={closeModal}
+        />
         <Animated.View
           style={[
             {
@@ -137,6 +184,8 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
                     <GroupConponent
                       {...group}
                       key={group.name}
+                      checked={selectedGroups.includes(group.id)}
+                      onChangeCheckboxState={() => onChangeSelectedGroups(group.id)}
                     />
                   ))
                 }
@@ -145,6 +194,8 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
                     <FriendDataComponent
                       {...friend}
                       key={friend.id}
+                      checked={selectedFriends.includes(friend.id)}
+                      onChangeCheckboxState={() => onChangeSelectedFriends(friend.id)}
                     />
                   ))
                 }              
@@ -154,6 +205,7 @@ const SelectFriendsForSendComponent = (props: SelectFriendsForSendType) => {
                 mode="base"
                 style={style.sendButtonStyle}
                 labelStyle={style.sendButtonLabelStyle}
+                onTouch={() => props.onPressSend(selectedFriends, selectedGroups)}
               />            
             </>
           </HomeBackground>
@@ -174,7 +226,8 @@ const style = StyleSheet.create({
     width: '100%',
     height: 500,
     bottom: 0,
-    backgroundColor: '#313131'
+    backgroundColor: '#313131',
+    zIndex: 1000
   },
   scrollContainer: {
     paddingTop: 10,
@@ -186,7 +239,8 @@ const style = StyleSheet.create({
     height: 50,
     borderRadius: 10,
     alignSelf: 'center',
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 5,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
@@ -253,11 +307,8 @@ const styleGroupComponent = StyleSheet.create({
     borderRadius: 25,
   },
   groupDataContainer: {
-    // position: 'absolute',
     flexDirection: 'column',
-    // alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
   },
   groupNameStyle: {
     fontFamily: FontFamily.poppinsMedium,

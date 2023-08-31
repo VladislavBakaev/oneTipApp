@@ -8,7 +8,6 @@ import {
 import { IconButton } from 'react-native-paper';
 
 import MainContentCreateView from './MainContentCreateView';
-import { ContentTextStyleType } from './MainContentCreateView/types';
 import { HomeBackground } from '../../components/UI/Backgrounds';
 import UserWidgetComponent,
 { UserWidgetType } from './UserWidgetComponent';
@@ -25,28 +24,12 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
     updatFriendGroupsList()
   })
 
-  const contentTextStyleDefault: ContentTextStyleType = {
-    fontColor: 'white',
-    fontFamily: 'Roboto',
-    fontSize: 30,
-    position: { x: 0, y: 0 }
-  }
-
-  const [photo, setPhoto] = React.useState('')
-  const [contentText, setContentText] = React.useState('')
-  const [
-    contentTextStyle, setContentTextStyle
-  ] = React.useState<ContentTextStyleType>(contentTextStyleDefault)
   const openMenuButtonPress = () => {
     navigation.openDrawer()
   }
 
   const openContentConfigButtonPress = () => {
     console.log('open config content button press')
-  }
-
-  const setContentTextStyleDefault = () => {
-    setContentTextStyle(contentTextStyleDefault)
   }
 
   const widgetsArray: Array<UserWidgetType> = [
@@ -125,15 +108,7 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
           style={style.scrollViewStyle}
           scrollEventThrottle={16}
         >
-          <MainContentCreateView
-            photo={photo}
-            setPhoto={setPhoto}
-            contentText={contentText}
-            setContentText={setContentText}
-            contentTextStyle={contentTextStyle}
-            setContentTextStyle={setContentTextStyle}
-            setDefaultContentTextStyle={setContentTextStyleDefault}
-          />
+          <MainContentCreateView />
           {
             widgetsArray.map((widget, key) => (
               <UserWidgetComponent

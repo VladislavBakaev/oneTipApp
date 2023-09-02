@@ -6,18 +6,26 @@ import {
 import { Color, FontFamily } from '../../../styles/GlobalStyles'
 import React from 'react';
 import { IconButton } from 'react-native-paper';
+import { ContentTextStyleType } from '../MainContentCreateView/types';
 
 interface UserWidgetType {
   atCreate: Date,
   music?: {
       author: string,
-      name: string
+      name: string,
+      id: number,
+      origin: string
   },
   geolocation?: {
       lat: number,
       lng: number
   },
-  user: FriendDataType,
+  widget: {
+    photo?: string,
+    text?: string,
+    textStyle?: ContentTextStyleType,
+  }
+  sendFromUser: FriendDataType,
   selectedReactions?: Array<string>
 }
 interface UserWidgetComponentType {
@@ -141,6 +149,18 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
           source={require('../../../assets/image/photo.jpg')}
           style={[style.imageContainer, { height: widgetImageHeight }]}
         />
+        <Text
+          style={{
+            position: 'absolute',
+            top: props.widget.widget.textStyle?.position.y,
+            left: props.widget.widget.textStyle?.position.x,
+            fontFamily: props.widget.widget.textStyle?.fontFamily,
+            color: props.widget.widget.textStyle?.fontColor,
+            fontSize: props.widget.widget.textStyle?.fontSize
+          }}
+        >
+          {props.widget.widget.text}
+        </Text>
         <IconButton
           icon='map-marker'
           style={style.mapMarkerWidgetStyle}
@@ -175,9 +195,9 @@ const UserWidgetComponent = (props: UserWidgetComponentType) => {
             style={style.userAvatarStyle}
           />
           <Text style={[style.userNameStyle, { marginRight: 10 }]}>
-            {props.widget.user.firstName}
+            {props.widget.sendFromUser.firstName}
           </Text>
-          <Text style={style.userNameStyle}>{props.widget.user.lastName}</Text>
+          <Text style={style.userNameStyle}>{props.widget.sendFromUser.lastName}</Text>
         </View>
       }
       <View style={style.emojiContainerStyle}>

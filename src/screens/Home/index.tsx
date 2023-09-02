@@ -15,6 +15,7 @@ import { ParamListBase } from '@react-navigation/native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { updateActialFriendsList, updateRequestFriendsList } from '../../services/friends';
 import { updatFriendGroupsList } from '../../services/groups';
+import { FontFamily } from '../../styles/GlobalStyles';
 
 const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
 
@@ -35,7 +36,7 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
   const widgetsArray: Array<UserWidgetType> = [
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -47,13 +48,28 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 3423455,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     },
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -65,13 +81,28 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 44441414,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     },
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -83,7 +114,22 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 22323,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     }
@@ -113,8 +159,8 @@ const Home = ({ navigation }: DrawerScreenProps<ParamListBase>) => {
             widgetsArray.map((widget, key) => (
               <UserWidgetComponent
                 widget={widget}
-                key={widget.user.id}
-                onUserClick={() => navigation.navigate('FriendChat', widget.user) }
+                key={widget.sendFromUser.id}
+                onUserClick={() => navigation.navigate('FriendChat', widget.sendFromUser) }
                 showUserState={true}
               />
             )) 

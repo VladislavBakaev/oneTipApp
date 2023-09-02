@@ -37,7 +37,7 @@ const FriendChatScreen = (props: Props) => {
   const widgetsArray: Array<UserWidgetType> = [
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -49,13 +49,28 @@ const FriendChatScreen = (props: Props) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 233223,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     },
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -67,13 +82,28 @@ const FriendChatScreen = (props: Props) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 3423455,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     },
     {
       atCreate: new Date(2018, 11, 24, 10, 33, 30, 0),
-      user: {
+      sendFromUser: {
         firstName: 'First Name',
         lastName: 'Last Name',
         avatar: '',
@@ -85,7 +115,22 @@ const FriendChatScreen = (props: Props) => {
       },
       music: {
         author: 'name surname',
-        name: 'Music name'
+        name: 'Music name',
+        id: 2344444,
+        origin: 'spotyfy',
+      },
+      widget:{
+        photo: '',
+        text: 'привет',
+        textStyle: {
+          fontColor: 'red',
+          fontFamily: FontFamily.poppinsMedium,
+          fontSize: 40,
+          position: {
+            x: 100,
+            y: 100,
+          }
+        }
       },
       selectedReactions: ['smile']
     }
@@ -107,13 +152,13 @@ const FriendChatScreen = (props: Props) => {
           {
             widgetsArray.map((widget, _index) => (
               <UserWidgetComponent
-                key={widget.user.id}
+                key={widget.sendFromUser.id}
                 widget={widget}
                 showUserState={false}
                 mainStyle={
                   [
                     style.widgetStyle,
-                    widget.user.id === user.id ? { alignSelf: 'flex-end' } : { alignSelf: 'flex-start' }
+                    widget.sendFromUser.id === user.id ? { alignSelf: 'flex-end' } : { alignSelf: 'flex-start' }
                   ]
                 }
               />

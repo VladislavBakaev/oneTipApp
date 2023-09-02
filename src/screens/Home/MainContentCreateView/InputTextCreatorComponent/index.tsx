@@ -8,6 +8,7 @@ import { TextInput } from 'react-native-paper';
 interface InputTextCreatorComponentType {
     textCreatorMode: boolean,
     textInputStyle: ContentTextStyleType,
+    setTextInputStyle: (data: ContentTextStyleType) => void,
     contentText: string
     setContentText: (text: string) => void
 }
@@ -26,6 +27,15 @@ const InputTextCreatorComponent = (props: InputTextCreatorComponentType) => {
       },
     }),
   ).current;
+
+  movableInputPan.addListener(() => {
+    props.setTextInputStyle({
+      ...props.textInputStyle,
+      position: {
+        x: movableInputPan.x.__getValue(),
+        y: movableInputPan.y.__getValue()
+      }})
+  })
 
   return (
     <>

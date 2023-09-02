@@ -61,6 +61,8 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
   const sendWidget = (selectedFriends: Array<number>, selectedGroups: Array<number>) => {
     console.log(selectedFriends)
     console.log(selectedGroups)
+    console.log(contentText)
+    console.log(contentTextStyle)
   }
   const addTextButtonClick = () => {
     setTextCreatorMode(true);
@@ -101,6 +103,7 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
             textCreatorMode={textCreatorMode}
             contentText={contentText}
             setContentText={setContentText}
+            setTextInputStyle={setContentTextStyle}
             textInputStyle={contentTextStyle}
           />
         </View>
@@ -108,7 +111,7 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
           {!textCreatorMode ? (
             <ContentControlComponent
               isContentTextNotEmpty={contentText !== ''}
-              isPhotoExist={props !== ''}
+              isPhotoExist={photo !== ''}
               addTextButtonClick={addTextButtonClick}
               loadFromGalary={loadFromGalary}
               sendPhoto={sendPhotoPrepareScreen}

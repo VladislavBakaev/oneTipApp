@@ -1,9 +1,11 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { PaperProvider } from 'react-native-paper';
 
-import { withAppStore } from './redux/AppStore';
+import { RootState, withAppStore } from './redux/AppStore';
 import AppNavigation from './navigation';
 import { navigationRef } from './navigation/navigatorRef';
+import LoadingScreen from './screens/Loading';
+import { useSelector } from 'react-redux';
 
 const lightTheme = {
   'colors': {
@@ -101,9 +103,12 @@ const darkTheme = {
   
 
 function App(): JSX.Element {
+  const isLoading = useSelector((state: RootState) => state.mainAppState.isLoading)
+
   return (
     <>
       <PaperProvider theme={darkTheme}>
+        { isLoading && <LoadingScreen /> }
         <NavigationContainer ref={navigationRef}>
           <AppNavigation />
         </NavigationContainer>          

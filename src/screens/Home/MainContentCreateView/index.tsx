@@ -1,22 +1,24 @@
 import {
   LayoutChangeEvent, StyleSheet, View 
 } from 'react-native';
-import { ContentTextStyleType, MainContainerCreateType } from './types';
+import { ContentTextStyleType, } from './types';
 
 import {
   launchImageLibrary,
   ImageLibraryOptions,
 } from 'react-native-image-picker';
 import React from 'react';
+import Geolocation from 'react-native-geolocation-service';
 import CameraComponent, { CameraComponentRefType } from './CameraComponent';
 import ContentControlComponent from './ContentControlComponent';
 import InputTextCreatorComponent from './InputTextCreatorComponent';
 import InputTextCreatorControlComponent from './InputTextCreatorControlComponent';
 import SelectFriendsForSendComponent from './SelectFriendsForSendComponent';
 
-const MainContentCreateView = (props: MainContainerCreateType) => {
+const MainContentCreateView = () => {
   const [photo, setPhoto] = React.useState('')
   const [contentText, setContentText] = React.useState('')
+  const [geolocation, setGeoLocation] = React.useState<Geolocation.GeoPosition>()
 
   const contentTextStyleDefault: ContentTextStyleType = {
     fontColor: 'white',
@@ -63,6 +65,7 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
     console.log(selectedGroups)
     console.log(contentText)
     console.log(contentTextStyle)
+    console.log(geolocation?.coords)
   }
   const addTextButtonClick = () => {
     setTextCreatorMode(true);
@@ -110,8 +113,10 @@ const MainContentCreateView = (props: MainContainerCreateType) => {
         <View style={style.propsPanelStyle}>
           {!textCreatorMode ? (
             <ContentControlComponent
+              isGeoLocationExist={geolocation !== undefined}
               isContentTextNotEmpty={contentText !== ''}
               isPhotoExist={photo !== ''}
+              setGeoLocation={setGeoLocation}
               addTextButtonClick={addTextButtonClick}
               loadFromGalary={loadFromGalary}
               sendPhoto={sendPhotoPrepareScreen}

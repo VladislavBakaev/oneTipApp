@@ -8,20 +8,19 @@ import SignInView from '../screens/SignInScreen';
 import SignUpView from '../screens/SignUpScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import Home from './Home'
-import LoadingScreen from '../screens/Loading';
 import FriendScreen from '../screens/ScreensFromLeftMenu/UserScrean';
 import { AppStackType } from './types';
 import FriendChatScreen from '../screens/FriendChatScreen';
+import MapSelectorScreen from '../screens/Home/MapSelectorScreen';
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 
 const AppNavigation = () : JSX.Element => {
   const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn)
-  const [loading, setLoading] = React.useState(false)
 
   return (
     <AppStack.Navigator>
-      {loading ? <AppStack.Screen name="Loading" component={LoadingScreen} /> :
+      {
         !isLoggedIn ?
           (<AppStack.Group>
             <AppStack.Screen
@@ -53,6 +52,13 @@ const AppNavigation = () : JSX.Element => {
               component={Home}
               options={{
                 headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_bottom' 
+              }}
+            />
+            <AppStack.Screen
+              name="MapSelectorScreen"
+              component={MapSelectorScreen}
+              options={{
+                headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_right' 
               }}
             />
             <AppStack.Group>

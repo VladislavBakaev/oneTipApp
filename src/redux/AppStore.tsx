@@ -6,6 +6,7 @@ import { createLogger } from 'redux-logger'
 import { userReducer } from './reducers/UserReducer';
 import { friendsReducer } from './reducers/FriendsReducer';
 import { groupsReducer } from './reducers/GroupsReducer';
+import { mainAppReducer } from './reducers/MainAppReducer';
 
 const logger = createLogger({
   level: {
@@ -25,7 +26,8 @@ export const store = configureStore({
   reducer: {
     user: userReducer,
     friends: friendsReducer,
-    groups: groupsReducer 
+    groups: groupsReducer,
+    mainAppState: mainAppReducer,
   },
   middleware: defaultMiddleware =>
     defaultMiddleware({ serializableCheck: false }).concat(logger),

@@ -1,0 +1,3 @@
+interface SetLoadingStatePayload {
+    state: boolean
+}

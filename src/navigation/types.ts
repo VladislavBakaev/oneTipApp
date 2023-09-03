@@ -6,4 +6,5 @@ export type AppStackType = {
     SignInView: undefined,
     SignUpView: undefined,
     ForgotPassword: undefined,
+    MapSelectorScreen: undefined,
 }

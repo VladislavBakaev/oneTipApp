@@ -1,12 +1,20 @@
 import {
-  View, Text, StyleSheet 
+  View, Text, StyleSheet, PermissionsAndroid 
 } from 'react-native'
 import { IconButton } from 'react-native-paper'
 import { FontFamily, Color } from '../../../../styles/GlobalStyles'
+// import { navigate } from '../../../../navigation/navigatorRef'
+import Geolocation from 'react-native-geolocation-service';
+import { setLoadingState } from '../../../../services/mainApp';
+import React from 'react';
+import DialogActionWithExistGeoComponent from './DialogActionWithExistGeoComponent';
+import DialogConfirmSetLocationComponent from './DialogConfirmSetLocationComponent';
 
 interface ContentControlComponentType {
     toggleOnlyTextMode: () => void
     isPhotoExist: boolean
+    isGeoLocationExist: boolean
+    setGeoLocation: (geo: Geolocation.GeoPosition | undefined) => void
     takePhoto: () => void
     sendPhoto: () => void
     loadFromGalary: () => void
@@ -17,12 +25,76 @@ interface ContentControlComponentType {
 
 const ContentControlComponent = (props: ContentControlComponentType) => {
 
+  const [dialogVisible, setDialogVisible] = React.useState(false);
+  const [confirmDialogVisible, setConfirmDialogVisible] = React.useState(false);
+
   const mainButtonEvent = props.isPhotoExist||(props.onlyTextMode && props.isContentTextNotEmpty) ?
     () => props.sendPhoto():
     () => props.takePhoto()
 
+  const getCurrentLocation = async () => {
+    if (dialogVisible) {
+      setDialogVisible(false)
+    }
+    if (confirmDialogVisible) {
+      setConfirmDialogVisible(false)
+    }
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Geolocation Permission',
+          message: 'Can we access your location?',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === 'granted') {
+        setLoadingState({ state: true })
+        Geolocation.getCurrentPosition(
+          position => {
+            props.setGeoLocation(position)
+            setLoadingState({ state: false })
+          },
+          error => {
+            console.log(error.code, error.message);
+            setLoadingState({ state: false })
+          },
+          {
+            enableHighAccuracy: true, timeout: 15000, maximumAge: 10000
+          },
+        );
+      }
+    } catch (err) {
+      console.error('request location permision error')
+    }
+  }
+
+  const openDialogWhenGeoExist = () => {
+    setDialogVisible(true)
+  }
+
+  const onClearGeoLocation = () => {
+    setDialogVisible(false)
+    props.setGeoLocation(undefined)
+  }
+
   return (
     <View>
+      <DialogConfirmSetLocationComponent
+        visible={confirmDialogVisible}
+        onHidden={() => setConfirmDialogVisible(false)}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onConfirm={getCurrentLocation}
+      />
+      <DialogActionWithExistGeoComponent
+        visible={dialogVisible}
+        onHidden={() => setDialogVisible(false)}
+        onClearPress={onClearGeoLocation}
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        onSetNewPress={getCurrentLocation}
+      />
       <View style={style.selectCameraDataTypeContainer}>
         <Text 
           style={[style.onlyTextStyle, props.onlyTextMode ? style.onlyTextModeEnable:{}]}
@@ -47,7 +119,17 @@ const ContentControlComponent = (props: ContentControlComponentType) => {
         />
       </View>
       <View style={style.selectMediaDataContainer}>
-        <IconButton icon={'map-marker'} size={35} />
+        <IconButton
+          icon={'map-marker'}
+          size={35}
+          onTouchEnd={
+            props.isGeoLocationExist ?
+              () => openDialogWhenGeoExist()
+              :
+              () => setConfirmDialogVisible(true)
+          }
+          style={props.isGeoLocationExist ? style.clickedButton : {}}
+        />  
         <IconButton
           style={props.isContentTextNotEmpty ? style.clickedButton : {}}
           icon={'format-text'} 

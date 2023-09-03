@@ -24,6 +24,10 @@ interface GroupsStore {
     groups: Array<GroupData>
 }
 
+interface MainAppStore {
+    isLoading: boolean
+}
+
 interface GroupData {
     name: string
     id: number
@@ -51,4 +55,8 @@ interface UpdateActualFriendsListType {
 
 interface UpdateRequestFriendsListType {
     requestFriends: Array<FriendDataType>
+}
+
+interface UpdateLoadingState {
+    state: boolean
 }

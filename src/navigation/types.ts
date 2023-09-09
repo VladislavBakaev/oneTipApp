@@ -7,4 +7,10 @@ export type AppStackType = {
     SignUpView: undefined,
     ForgotPassword: undefined,
     MapSelectorScreen: undefined,
+    MusicSelectorScreen: MusicSelectorScreenType,
+}
+
+interface MusicSelectorScreenType {
+    updateTrackURL: (url: string) => void
+    trackUrl: string
 }

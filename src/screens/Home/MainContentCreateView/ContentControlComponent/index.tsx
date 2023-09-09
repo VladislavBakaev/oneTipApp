@@ -9,6 +9,8 @@ import { setLoadingState } from '../../../../services/mainApp';
 import React from 'react';
 import DialogActionWithExistGeoComponent from './DialogActionWithExistGeoComponent';
 import DialogConfirmSetLocationComponent from './DialogConfirmSetLocationComponent';
+import { navigate } from '../../../../navigation/navigatorRef';
+import { LogBox } from 'react-native';
 
 interface ContentControlComponentType {
     toggleOnlyTextMode: () => void
@@ -21,12 +23,18 @@ interface ContentControlComponentType {
     isContentTextNotEmpty: boolean
     addTextButtonClick: () => void
     onlyTextMode: boolean
+    setTrackUrl: (url: string) => void
+    trackUrl: string
 }
 
 const ContentControlComponent = (props: ContentControlComponentType) => {
 
   const [dialogVisible, setDialogVisible] = React.useState(false);
   const [confirmDialogVisible, setConfirmDialogVisible] = React.useState(false);
+
+  LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+  ]);
 
   const mainButtonEvent = props.isPhotoExist||(props.onlyTextMode && props.isContentTextNotEmpty) ?
     () => props.sendPhoto():
@@ -136,7 +144,12 @@ const ContentControlComponent = (props: ContentControlComponentType) => {
           size={35} 
           onPress={() => props.addTextButtonClick()}
         />
-        <IconButton icon={'music'} size={35} />
+        <IconButton
+          icon={'music'}
+          size={35}
+          onTouchEnd={() => navigate('MusicSelectorScreen', { updateTrackURL: props.setTrackUrl, trackUrl: props.trackUrl })}
+          style={props.trackUrl ? style.clickedButton : {}}
+        />
       </View>
     </View> 
   )

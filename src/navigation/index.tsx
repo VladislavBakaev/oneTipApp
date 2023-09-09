@@ -12,6 +12,7 @@ import FriendScreen from '../screens/ScreensFromLeftMenu/UserScrean';
 import { AppStackType } from './types';
 import FriendChatScreen from '../screens/FriendChatScreen';
 import MapSelectorScreen from '../screens/Home/MapSelectorScreen';
+import MusicSelectorScreen from '../screens/Home/MusicSelectorScreen';
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 
@@ -57,6 +58,13 @@ const AppNavigation = () : JSX.Element => {
             <AppStack.Screen
               name="MapSelectorScreen"
               component={MapSelectorScreen}
+              options={{
+                headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_right' 
+              }}
+            />
+            <AppStack.Screen
+              name="MusicSelectorScreen"
+              component={MusicSelectorScreen}
               options={{
                 headerShown: false, animationTypeForReplace: 'push', animation:'slide_from_right' 
               }}

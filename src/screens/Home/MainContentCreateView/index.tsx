@@ -19,6 +19,7 @@ const MainContentCreateView = () => {
   const [photo, setPhoto] = React.useState('')
   const [contentText, setContentText] = React.useState('')
   const [geolocation, setGeoLocation] = React.useState<Geolocation.GeoPosition>()
+  const [trackUrl, setTrackUrl] = React.useState('')
 
   const contentTextStyleDefault: ContentTextStyleType = {
     fontColor: 'white',
@@ -66,6 +67,7 @@ const MainContentCreateView = () => {
     console.log(contentText)
     console.log(contentTextStyle)
     console.log(geolocation?.coords)
+    console.log(trackUrl)
   }
   const addTextButtonClick = () => {
     setTextCreatorMode(true);
@@ -122,6 +124,8 @@ const MainContentCreateView = () => {
               sendPhoto={sendPhotoPrepareScreen}
               takePhoto={takePhoto}
               onlyTextMode={onlyTextMode}
+              setTrackUrl={setTrackUrl}
+              trackUrl={trackUrl}
               toggleOnlyTextMode={
                 () => setOnlyTextMode(!onlyTextMode)
               }

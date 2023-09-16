@@ -6,6 +6,7 @@ import { HsvColor } from 'react-native-color-picker/dist/typeHelpers'
 import { IconButton } from 'react-native-paper'
 import { ContentTextStyleType } from '../types'
 import Slider from '@react-native-community/slider';
+import React from 'react'
 
 interface InputTextCreatorControlComponentType {
     setTextCreatorMode: (flag: boolean) => void,
@@ -28,6 +29,7 @@ const InputTextCreatorControlComponent = (props: InputTextCreatorControlComponen
     'Roboto',
     'monospace'
   ]
+
 
   const confirmTextMode = () => {
     props.setTextCreatorMode(false)

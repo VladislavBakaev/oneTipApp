@@ -32,7 +32,11 @@ const InputTextCreatorComponent = (props: InputTextCreatorComponentType) => {
     props.setTextInputStyle({
       ...props.textInputStyle,
       position: {
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         x: movableInputPan.x.__getValue(),
+        // eslint-disable-next-line max-len
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
         y: movableInputPan.y.__getValue()
       }})
   })

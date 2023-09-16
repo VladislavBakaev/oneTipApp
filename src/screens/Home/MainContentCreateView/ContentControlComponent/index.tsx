@@ -198,11 +198,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  clickedButton: {
-    borderWidth: 1,
-    borderColor: '#E9E9E9',
-    backgroundColor: '#E9E9E920'
-  },
+  clickedButton: { backgroundColor: '#E9E9E920' },
   onlyTextModeEnable: { backgroundColor: '#E9E9E920', }
 })
 

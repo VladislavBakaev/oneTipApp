@@ -165,7 +165,7 @@ const MusicSelectorScreen = (props: Props) => {
       <HomeBackground>
         <View style={style.contentContainer}>
           <Searchbar
-            placeholder='find friend by id'
+            placeholder='track name'
             placeholderTextColor={Color.silver}
             cursorColor={Color.silver}
             value={searchMusicName}
